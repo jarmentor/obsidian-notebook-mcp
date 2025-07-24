@@ -1,0 +1,31 @@
+{
+  "name": "ai-note-searcher-5000",
+  "version": "1.0.0",
+  "description": "AI-powered semantic search for Obsidian notes using Qdrant",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@qdrant/js-client-rest": "^1.8.2",
+    "chokidar": "^3.5.3",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.0.0",
+    "node-fetch": "^2.7.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "keywords": [
+    "obsidian",
+    "semantic-search",
+    "qdrant",
+    "mcp",
+    "vector-database"
+  ],
+  "author": "",
+  "license": "MIT"
+}

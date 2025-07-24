@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-note-searcher": {
+      "command": "node",
+      "args": ["/Volumes/Development/ai-note-searcher-5000/mcp-server.js"],
+      "env": {
+        "QDRANT_URL": "http://127.0.0.1:6333",
+        "OLLAMA_URL": "http://127.0.0.1:11434",
+        "NOTEBOOK_PATH": "/Volumes/Development/Notebook",
+        "MCP_SERVER": "true"
+      }
+    }
+  }
+}
