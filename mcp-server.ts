@@ -3,12 +3,13 @@
 // Change to the script's directory to ensure proper module resolution
 process.chdir(__dirname);
 
-const QdrantClient = require('./src/qdrantClient');
-const VectorProcessor = require('./src/vectorProcessor');
-const MCPServer = require('./dist/mcpServer');
+import QdrantClient = require('./src/qdrantClient.js');
+import VectorProcessor = require('./src/vectorProcessor.js');
+import { MCPServer } from './src/mcpServer.js';
+
 const logger = require('./src/logger');
 
-async function startMCPServer() {
+async function startMCPServer(): Promise<void> {
   try {
     // Use environment variables or defaults for local connection
     const qdrantUrl = process.env.QDRANT_URL || 'http://127.0.0.1:6333';
@@ -26,7 +27,7 @@ async function startMCPServer() {
     
     await vectorProcessor.initialize();
 
-    const mcpServer = new MCPServer.MCPServer(vectorProcessor);
+    const mcpServer = new MCPServer(vectorProcessor);
     await mcpServer.start();
 
     console.error('MCP Server started successfully');
