@@ -3,7 +3,7 @@ import VectorProcessor = require('./vectorProcessor.js');
 import FileWatcher = require('./fileWatcher.js');
 import { MCPServer } from './mcpServer.js';
 
-const logger = require('./logger');
+const logger = require(process.cwd() + '/src/logger');
 
 class AINotesearcher {
   private qdrantClient: any;

@@ -5,7 +5,7 @@ const QdrantClient = require("./qdrantClient.js");
 const VectorProcessor = require("./vectorProcessor.js");
 const FileWatcher = require("./fileWatcher.js");
 const mcpServer_js_1 = require("./mcpServer.js");
-const logger = require('./logger');
+const logger = require(process.cwd() + '/src/logger');
 class AINotesearcher {
     constructor() {
         this.qdrantClient = null;

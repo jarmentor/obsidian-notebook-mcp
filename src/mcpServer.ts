@@ -9,7 +9,7 @@ import {
 import { VectorProcessor } from './types/mcp.js';
 import { ToolRegistry } from './tools/registry.js';
 
-const logger = require('./logger');
+const logger = require(process.cwd() + '/src/logger');
 
 export class MCPServer {
   private server: Server;

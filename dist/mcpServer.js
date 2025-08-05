@@ -5,7 +5,7 @@ const index_js_1 = require("@modelcontextprotocol/sdk/server/index.js");
 const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
 const types_js_1 = require("@modelcontextprotocol/sdk/types.js");
 const registry_js_1 = require("./tools/registry.js");
-const logger = require('./logger');
+const logger = require(process.cwd() + '/src/logger');
 class MCPServer {
     constructor(vectorProcessor) {
         this.toolRegistry = new registry_js_1.ToolRegistry(vectorProcessor);
