@@ -86,3 +86,11 @@ jspm_packages/
 
 # Qdrant data directory
 qdrant_data/
+
+node_modules/                                                                                          │
+*.log                                                                                                        │
+.env                                                                                                         │
+.DS_Store                                                                                                    │
+dist/                                                                                                        │
+*.tsbuildinfo"
+dist
