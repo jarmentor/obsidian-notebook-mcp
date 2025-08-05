@@ -1,1 +1,0 @@
-{"version":3,"file":"directory-structure.d.ts","sourceRoot":"","sources":["../../src/tools/directory-structure.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,QAAQ,EAAE,MAAM,WAAW,CAAC;AACrC,OAAO,EAAE,cAAc,EAAE,WAAW,EAAsB,MAAM,iBAAiB,CAAC;AAElF,qBAAa,sBAAuB,SAAQ,QAAQ;IAClD,UAAU,EAAE,cAAc,CAsBxB;IAEF,OAAO,EAAE,WAAW,CAwBlB;YAEY,uBAAuB;CA8CtC"}
