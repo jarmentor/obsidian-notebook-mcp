@@ -1,13 +1,14 @@
 import { MCPTool, VectorProcessor } from '../types/mcp.js';
 import { DirectoryStructureTool } from './directory-structure.js';
 import { FilePathSuggestionTool } from './file-path-suggestions.js';
-import { 
-  SearchNotesTool, 
-  GetNoteContentTool, 
-  CreateNoteTool, 
-  UpdateNoteTool, 
-  AppendToNoteTool 
+import {
+  SearchNotesTool,
+  GetNoteContentTool,
+  CreateNoteTool,
+  UpdateNoteTool,
+  AppendToNoteTool
 } from './note-operations.js';
+import { GetLatestDailyNoteTool } from './daily-notes-tool.js';
 
 export class ToolRegistry {
   private tools: Map<string, MCPTool> = new Map();
@@ -15,6 +16,7 @@ export class ToolRegistry {
   constructor(vectorProcessor: VectorProcessor) {
     this.registerCoreTools(vectorProcessor);
     this.registerStructureTools();
+    this.registerDailyNoteTools();
   }
 
   private registerCoreTools(vectorProcessor: VectorProcessor): void {
@@ -38,6 +40,16 @@ export class ToolRegistry {
     ];
 
     structureTools.forEach(tool => {
+      this.tools.set(tool.definition.name, tool);
+    });
+  }
+
+  private registerDailyNoteTools(): void {
+    const dailyNoteTools = [
+      new GetLatestDailyNoteTool(),
+    ];
+
+    dailyNoteTools.forEach(tool => {
       this.tools.set(tool.definition.name, tool);
     });
   }
