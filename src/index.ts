@@ -1,9 +1,8 @@
-import QdrantClient = require('./qdrantClient.js');
-import VectorProcessor = require('./vectorProcessor.js');
-import FileWatcher = require('./fileWatcher.js');
-import { MCPServer } from './mcpServer.js';
-
-const logger = require(process.cwd() + '/src/logger');
+import QdrantClient from './qdrantClient';
+import VectorProcessor from './vectorProcessor';
+import FileWatcher from './fileWatcher';
+import { MCPServer } from './mcpServer';
+import logger from './logger';
 
 class AINotesearcher {
   private qdrantClient: any;
@@ -34,7 +33,8 @@ class AINotesearcher {
 
       // Initialize file watcher if not running as MCP server
       if (!process.env.MCP_SERVER) {
-        this.fileWatcher = new FileWatcher(this.vectorProcessor);
+        const notebookPath = process.env.NOTEBOOK_PATH || '/app/notebook';
+        this.fileWatcher = new FileWatcher(notebookPath, this.vectorProcessor);
         this.fileWatcher.start();
         logger.info('File watcher started');
       }

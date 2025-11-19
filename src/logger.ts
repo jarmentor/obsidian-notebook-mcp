@@ -1,6 +1,6 @@
-const winston = require('winston');
-const fs = require('fs');
-const path = require('path');
+import winston from 'winston';
+import fs from 'fs';
+import path from 'path';
 
 // Ensure logs directory exists
 const logsDir = path.join(__dirname, '..', 'logs');
@@ -9,7 +9,7 @@ if (!fs.existsSync(logsDir)) {
 }
 
 // For MCP server, create a silent logger to avoid stdout interference
-const transports = [];
+const transports: winston.transport[] = [];
 
 if (!process.env.MCP_SERVER) {
   // Normal operation - use file logging
@@ -17,7 +17,7 @@ if (!process.env.MCP_SERVER) {
     new winston.transports.File({ filename: path.join(logsDir, 'error.log'), level: 'error' }),
     new winston.transports.File({ filename: path.join(logsDir, 'combined.log') })
   );
-  
+
   // Add console transport in development
   if (process.env.NODE_ENV !== 'production') {
     transports.push(new winston.transports.Console({
@@ -44,4 +44,4 @@ const logger = winston.createLogger({
   silent: process.env.MCP_SERVER === 'true' // Completely silence when MCP_SERVER is true
 });
 
-module.exports = logger;
+export default logger;

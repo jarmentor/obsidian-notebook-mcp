@@ -1,19 +1,24 @@
-const chokidar = require('chokidar');
-const path = require('path');
-const fs = require('fs').promises;
-const matter = require('gray-matter');
-const logger = require('./logger');
+import chokidar from 'chokidar';
+import path from 'path';
+import fs from 'fs/promises';
+import matter from 'gray-matter';
+import logger from './logger';
+import type VectorProcessor from './vectorProcessor';
 
 class FileWatcher {
-  constructor(notebookPath, vectorProcessor) {
+  private notebookPath: string;
+  private vectorProcessor: VectorProcessor;
+  private watcher: chokidar.FSWatcher | null;
+
+  constructor(notebookPath: string, vectorProcessor: VectorProcessor) {
     this.notebookPath = notebookPath;
     this.vectorProcessor = vectorProcessor;
     this.watcher = null;
   }
 
-  async start() {
+  async start(): Promise<void> {
     logger.info(`Starting file watcher for: ${this.notebookPath}`);
-    
+
     this.watcher = chokidar.watch('**/*.md', {
       cwd: this.notebookPath,
       ignored: /(^|[\/\\])\../,
@@ -33,14 +38,14 @@ class FileWatcher {
       });
   }
 
-  async handleFileChange(filePath, eventType) {
+  async handleFileChange(filePath: string, eventType: string): Promise<void> {
     try {
       const fullPath = path.join(this.notebookPath, filePath);
       logger.info(`File ${eventType}: ${filePath}`);
-      
+
       const content = await fs.readFile(fullPath, 'utf8');
       const parsed = matter(content);
-      
+
       const document = {
         id: filePath,
         path: filePath,
@@ -55,7 +60,7 @@ class FileWatcher {
     }
   }
 
-  async handleFileDelete(filePath) {
+  async handleFileDelete(filePath: string): Promise<void> {
     try {
       logger.info(`File deleted: ${filePath}`);
       await this.vectorProcessor.deleteDocument(filePath);
@@ -64,11 +69,11 @@ class FileWatcher {
     }
   }
 
-  async processExistingFiles() {
+  async processExistingFiles(): Promise<void> {
     try {
       const files = await this.getMarkdownFiles(this.notebookPath);
       logger.info(`Processing ${files.length} existing files`);
-      
+
       for (const filePath of files) {
         const relativePath = path.relative(this.notebookPath, filePath);
         await this.handleFileChange(relativePath, 'initial');
@@ -78,13 +83,13 @@ class FileWatcher {
     }
   }
 
-  async getMarkdownFiles(dir) {
-    const files = [];
+  async getMarkdownFiles(dir: string): Promise<string[]> {
+    const files: string[] = [];
     const entries = await fs.readdir(dir, { withFileTypes: true });
-    
+
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
-      
+
       if (entry.isDirectory()) {
         const subFiles = await this.getMarkdownFiles(fullPath);
         files.push(...subFiles);
@@ -92,11 +97,11 @@ class FileWatcher {
         files.push(fullPath);
       }
     }
-    
+
     return files;
   }
 
-  stop() {
+  stop(): void {
     if (this.watcher) {
       this.watcher.close();
       logger.info('File watcher stopped');
@@ -104,4 +109,4 @@ class FileWatcher {
   }
 }
 
-module.exports = FileWatcher;
+export default FileWatcher;
