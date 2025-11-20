@@ -8,8 +8,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { VectorProcessor } from './types/mcp.js';
 import { ToolRegistry } from './tools/registry.js';
-
-const logger = require(process.cwd() + '/src/logger');
+import logger from './logger.ts';
 
 export class MCPServer {
   private server: Server;

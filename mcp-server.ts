@@ -1,13 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
-// Change to the script's directory to ensure proper module resolution
-process.chdir(__dirname);
-
-import QdrantClient = require('./src/qdrantClient.js');
-import VectorProcessor = require('./src/vectorProcessor.js');
-import { MCPServer } from './src/mcpServer.js';
-
-const logger = require('./src/logger');
+import QdrantClientWrapper from './src/qdrantClient.ts';
+import VectorProcessor from './src/vectorProcessor.ts';
+import { MCPServer } from './src/mcpServer.ts';
 
 async function startMCPServer(): Promise<void> {
   try {
@@ -18,16 +13,16 @@ async function startMCPServer(): Promise<void> {
 
     console.error(`Starting MCP server with Qdrant: ${qdrantUrl}, Ollama: ${ollamaUrl}`);
 
-    const qdrantClient = new QdrantClient(qdrantUrl);
+    const qdrantClient = new QdrantClientWrapper(qdrantUrl);
     await qdrantClient.connect();
 
     const vectorProcessor = new VectorProcessor(qdrantClient);
     // Override Ollama URL for local connection
-    vectorProcessor.ollamaUrl = ollamaUrl;
-    
+    (vectorProcessor as any).ollamaUrl = ollamaUrl;
+
     await vectorProcessor.initialize();
 
-    const mcpServer = new MCPServer(vectorProcessor);
+    const mcpServer = new MCPServer(vectorProcessor as any);
     await mcpServer.start();
 
     console.error('MCP Server started successfully');
